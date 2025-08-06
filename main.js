@@ -358,7 +358,7 @@ bot.on("ready", async () => {
 bot.on("playerTip", async (sender, receiver, tip) => {
     if (tip.amount !== 10 || receiver.id !== '6835fa9c903951782e5c18e4' || !razdacha.isRunning) return
     razdacha.isRunning = false
-    await delay(1000)
+    await delay(2000)
     await bot.message.send(`\n@${sender.username} got 20g`).catch(console.error);
     await bot.player.tip(sender.id, 10)
     await bot.player.tip(sender.id, 10)
