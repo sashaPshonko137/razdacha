@@ -333,7 +333,7 @@ bot.on("playerTip", async (sender, receiver, tip) => {
 })
 
 bot.on('playerJoin', async (user) => {
-    await bot.whisper.send(user.id, `\n@${ch[i].username}, привет! это конкурс, где можно выиграть gold. нужно успеть первому закинуть боту по его команде 10г, чтобы получить 30г`).catch(console.error);
+    await bot.whisper.send(user.id, `\n@${user.username}, привет! это конкурс, где можно выиграть gold. нужно успеть первому закинуть боту по его команде 10г, чтобы получить 30г`).catch(console.error);
     await bot.player.react(user.id, Reactions.Heart).catch(e => console.error(e));
 });
 
