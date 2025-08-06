@@ -318,9 +318,11 @@ setInterval(async () => {
 }, 0);
 
 setInterval(async () => {
+
  if (razdacha.isRunning) return
         const players = await bot.room.players.get().catch(console.error);
         const playerIDs = players.map(item => item[0].id);
+        if (players.length < 9) return
         const totalPlayers = playerIDs.length;
         for (const id of playerIDs) {
             if (id === '6835fa9c903951782e5c18e4') continue
