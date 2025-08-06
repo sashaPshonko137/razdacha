@@ -326,14 +326,14 @@ bot.on("playerTip", async (sender, receiver, tip) => {
     if (tip.amount !== 10 || receiver.id !== '6835fa9c903951782e5c18e4' || !razdacha.isRunning) return
     razdacha.isRunning = false
     await delay(2000)
-    await bot.message.send(`\n@${sender.username} получает 30г`).catch(console.error);
+    await bot.message.send(`\n@${sender.username} got 30g`).catch(console.error);
     await bot.player.tip(sender.id, 10)
     await bot.player.tip(sender.id, 10)
     await bot.player.tip(sender.id, 10)
 })
 
 bot.on('playerJoin', async (user) => {
-    await bot.whisper.send(user.id, `\n@${user.username}, привет! это конкурс, где можно выиграть gold. нужно успеть первому закинуть боту по его команде 10г, чтобы получить 30г`).catch(console.error);
+    await bot.whisper.send(user.id, `\n@${user.username}, hi! this is a contest where you can win gold. you need to be the first to give the bot 10g on its command to get 30g`).catch(console.error);
     await bot.player.react(user.id, Reactions.Heart).catch(e => console.error(e));
 });
 
@@ -389,10 +389,10 @@ bot.on("chatCreate", async (user, message) => {
                 console.error(error)
             }
         }
-        bot.message.send(`\nКто скинет 10г после слова СТАРТ - получит 30г`).catch(console.error);
+        bot.message.send(`\nWhoever drops 10g after the word START will receive 30g`).catch(console.error);
         await delay(getRandomDelayInRange(7000, 12000))
         razdacha.isRunning = true
-        await bot.message.send(`\nСТАРТ`).catch(console.error);
+        await bot.message.send(`\nSTART`).catch(console.error);
     }
 
       const price = extractNumberFromString(msg)
