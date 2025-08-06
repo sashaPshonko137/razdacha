@@ -329,26 +329,26 @@ function getRandomDollarEmojis() {
   return result;
 }
 
-setInterval(async () => {
+// setInterval(async () => {
 
- if (razdacha.isRunning) return
-        const players = await bot.room.players.get().catch(console.error);
-        const playerIDs = players.map(item => item[0].id);
-        if (playerIDs.length < 20) return
-        for (const id of playerIDs) {
-            if (id === '6835fa9c903951782e5c18e4') continue
-            try {
-                await bot.player.react(id, Reactions.Clap).catch(e => console.error(e));
-            } catch (error) {
-                console.error(error)
-            }
-        }
-        bot.message.send(`\nWhoever drops 10g after the word START will receive 20g}`).catch(console.error);
-        bot.message.send(`\nПервый, кто скинет 10г после слова START - получит 20г}`).catch(console.error);
-        await delay(getRandomDelayInRange(5000, 8000))
-        razdacha.isRunning = true
-        await bot.message.send(`\nSTART`).catch(console.error);
-}, 30000)
+//  if (razdacha.isRunning) return
+//         const players = await bot.room.players.get().catch(console.error);
+//         const playerIDs = players.map(item => item[0].id);
+//         if (playerIDs.length < 20) return
+//         for (const id of playerIDs) {
+//             if (id === '6835fa9c903951782e5c18e4') continue
+//             try {
+//                 await bot.player.react(id, Reactions.Clap).catch(e => console.error(e));
+//             } catch (error) {
+//                 console.error(error)
+//             }
+//         }
+//         bot.message.send(`\nWhoever drops 10g after the word START will receive 20g}`).catch(console.error);
+//         bot.message.send(`\nПервый, кто скинет 10г после слова START - получит 20г}`).catch(console.error);
+//         await delay(getRandomDelayInRange(5000, 8000))
+//         razdacha.isRunning = true
+//         await bot.message.send(`\nSTART`).catch(console.error);
+// }, 30000)
 
 bot.on("ready", async () => {
     bot.move.walk(15, 1.5, 0, Facing.FrontLeft)
