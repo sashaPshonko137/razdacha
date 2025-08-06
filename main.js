@@ -316,6 +316,18 @@ setInterval(async () => {
         }
     }
 }, 0);
+function getRandomDollarEmojis() {
+  const dollarEmojis = ['💵', '💲', '💰', '🤑', '💸']; // Разные эмодзи "доллара"
+  const randomCount = Math.floor(Math.random() * 5) + 1; // От 1 до 5
+  let result = '';
+
+  for (let i = 0; i < randomCount; i++) {
+    const randomEmoji = dollarEmojis[Math.floor(Math.random() * dollarEmojis.length)];
+    result += randomEmoji;
+  }
+
+  return result;
+}
 
 setInterval(async () => {
 
@@ -331,8 +343,8 @@ setInterval(async () => {
                 console.error(error)
             }
         }
-        bot.message.send(`\nWhoever drops 10g after the word START will receive 30g`).catch(console.error);
-        bot.message.send(`\nПервый, кто скинет 10г после слова START - получит 30г`).catch(console.error);
+        bot.message.send(`\nWhoever drops 10g after the word START will receive 30g\n${getRandomDollarEmojis()}`).catch(console.error);
+        bot.message.send(`\nПервый, кто скинет 10г после слова START - получит 30г\n${getRandomDollarEmojis()}`).catch(console.error);
         await delay(getRandomDelayInRange(7000, 12000))
         razdacha.isRunning = true
         await bot.message.send(`\nSTART`).catch(console.error);
