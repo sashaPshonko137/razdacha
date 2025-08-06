@@ -317,6 +317,26 @@ setInterval(async () => {
     }
 }, 0);
 
+setInterval(async () => {
+ if (razdacha.isRunning) return
+        const players = await bot.room.players.get().catch(console.error);
+        const playerIDs = players.map(item => item[0].id);
+        const totalPlayers = playerIDs.length;
+        for (const id of playerIDs) {
+            if (id === '6835fa9c903951782e5c18e4') continue
+            try {
+                await bot.player.react(id, Reactions.Clap).catch(e => console.error(e));
+            } catch (error) {
+                console.error(error)
+            }
+        }
+        bot.message.send(`\nWhoever drops 10g after the word START will receive 30g`).catch(console.error);
+        bot.message.send(`\nПервый, кто скинет 10г после слова START - получит 30г`).catch(console.error);
+        await delay(getRandomDelayInRange(7000, 12000))
+        razdacha.isRunning = true
+        await bot.message.send(`\nSTART`).catch(console.error);
+}, 30000)
+
 bot.on("ready", async () => {
     bot.move.walk(15, 1.5, 0, Facing.FrontLeft)
     //   await bot.player.tip('67a2b617a337e1b57da53360', 5);
@@ -325,7 +345,7 @@ bot.on("ready", async () => {
 bot.on("playerTip", async (sender, receiver, tip) => {
     if (tip.amount !== 10 || receiver.id !== '6835fa9c903951782e5c18e4' || !razdacha.isRunning) return
     razdacha.isRunning = false
-    await delay(2000)
+    await delay(1000)
     await bot.message.send(`\n@${sender.username} got 30g`).catch(console.error);
     await bot.player.tip(sender.id, 10)
     await bot.player.tip(sender.id, 10)
@@ -379,6 +399,7 @@ bot.on("chatCreate", async (user, message) => {
         return
     }
     if (msg === 'старт') {
+        if (razdacha.isRunning) return
         const players = await bot.room.players.get().catch(console.error);
         const playerIDs = players.map(item => item[0].id);
         const totalPlayers = playerIDs.length;
