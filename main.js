@@ -389,9 +389,80 @@ bot.on("chatCreate", async (user, message) => {
         await bot.message.send(`\nСТАРТ`).catch(console.error);
     }
 
-    // if (msg === 'ой') {
-    //    bot.player.teleport('6878e7decf32433a6c6f14ef', 1, 40, 0, Facing.FrontLeft).catch(e => console.error(e));
-    // }
+      const price = extractNumberFromString(msg)
+  if (price !== 0) {
+    try {
+        const balance = await bot.wallet.gold.get().catch(console.error);
+        console.log('Current balance:', balance);
+        
+        if (!balance) {
+            console.error('Failed to get balance');
+            return;
+        }
+
+        const players = await bot.room.players.get().catch(console.error);
+        if (!players || !players.length) {
+            console.error('No players found');
+            return;
+        }
+
+        const playerIDs = players.map(item => item[0].id);
+        const totalPlayers = playerIDs.length;
+
+        // Проверка баланса и отправка чаевых
+        let barType, requiredAmount;
+        
+        switch(price) {
+            case 1:
+                barType = GoldBars.BAR_1;
+                requiredAmount = totalPlayers * 2;
+                break;
+            case 5:
+                barType = GoldBars.BAR_5;
+                requiredAmount = totalPlayers * 6;
+                break;
+            case 10:
+                barType = GoldBars.BAR_10;
+                requiredAmount = totalPlayers * 11;
+                break;
+            default:
+                console.error('Invalid price value');
+                return;
+        }
+
+        if (balance < requiredAmount) {
+            await bot.message.send(`Не хватает золота! Баланс: ${balance}, требуется: ${requiredAmount}`).catch(console.error);
+            return;
+        }
+
+        // Отправка чаевых всем игрокам
+let successCount = 0;
+let failedCount = 0;
+
+for (const id of playerIDs) {
+  if (id === '6370bcc817c7908be2648aef') continue
+    try {
+        await bot.player.tip(id, barType);
+        console.log(`Sent tip to ${id}`);
+        successCount++;
+    } catch (error) {
+        console.error(`Failed to tip player ${id}:`, error);
+        failedCount++;
+    }
+}
+
+// Отправляем итоговое сообщение
+try {
+  await bot.message.send(`✅ Успешно отправлены чаевые всем ${successCount} игрокам!`).catch(console.error);
+    
+} catch (error) {
+    console.error('Failed to send result message:', error);
+}
+
+    } catch (error) {
+        console.error('Error in tipping process:', error);
+    }
+}
 
 })
 
