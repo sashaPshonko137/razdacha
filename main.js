@@ -331,9 +331,10 @@ bot.on("playerTip", async (sender, receiver, tip) => {
     await bot.player.tip(sender.id, 10)
     await bot.player.tip(sender.id, 10)
 })
-
+//привет! это конкурс, где можно выиграть gold. нужно успеть первому закинуть боту по его команде 10г, чтобы получить 30г
 bot.on('playerJoin', async (user) => {
     await bot.whisper.send(user.id, `\n@${user.username}, hi! this is a contest where you can win gold. you need to be the first to give the bot 10g on its command to get 30g`).catch(console.error);
+    await bot.whisper.send(user.id, `\n@${user.username}, привет! это конкурс, где можно выиграть gold. нужно успеть первому закинуть боту по его команде 10г, чтобы получить 30г`).catch(console.error);
     await bot.player.react(user.id, Reactions.Heart).catch(e => console.error(e));
 });
 
@@ -390,6 +391,7 @@ bot.on("chatCreate", async (user, message) => {
             }
         }
         bot.message.send(`\nWhoever drops 10g after the word START will receive 30g`).catch(console.error);
+        bot.message.send(`\nПервый, кто скинет 10г после слова START - получит 30г`).catch(console.error);
         await delay(getRandomDelayInRange(7000, 12000))
         razdacha.isRunning = true
         await bot.message.send(`\nSTART`).catch(console.error);
