@@ -366,7 +366,6 @@ bot.on("chatCreate", async (user, message) => {
         return
     }
     if (user.id !== "67f8078652db7b9f7a0e68fb" && user.id !== "67a2b617a337e1b57da53360") return
-    console.log(`[CHAT]: ${user.username}:${user.id} - ${message}`);
     if (msg === 'баланс' || msg === 'бал') {
         const balance = await bot.wallet.gold.get().catch(console.error)
         bot.message.send(`баланс - ${balance}`).catch(console.error);
@@ -385,7 +384,7 @@ bot.on("chatCreate", async (user, message) => {
             }
         }
         bot.message.send(`\nКто скинет 10г после слова СТАРТ - получит 30г`).catch(console.error);
-        await delay(getRandomDelayInRange(5000, 7000))
+        await delay(getRandomDelayInRange(7000, 12000))
         razdacha.isRunning = true
         await bot.message.send(`\nСТАРТ`).catch(console.error);
     }
