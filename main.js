@@ -420,6 +420,24 @@ const msg = message.toLowerCase();
         await bot.message.send(`\nSTART`).catch(console.error);
     }
 
+ const usData = parseUserAction(message)
+    if (usData) {
+        const players = await bot.room.players.get().catch(console.error);
+        if (!players) return
+        const partner = players.find(player => player[0].username === usData.username)
+        if (!partner) {
+            return
+        }
+        const id = partner[0].id
+        switch(usData.action) {
+            case 'кик':
+                bot.player.kick(id).catch(e => console.error(e));
+            case 'бан':
+                bot.player.ban(id, 3200).catch(e => console.error(e));
+        }
+        return
+    }
+
       const price = extractNumberFromString(msg)
   if (price !== 0) {
     try {
@@ -579,6 +597,7 @@ bot.on("chatCreate", async (user, message) => {
 
     const usData = parseUserAction(message)
     if (usData) {
+        console.log(1)
         const players = await bot.room.players.get().catch(console.error);
         if (!players) return
         const partner = players.find(player => player[0].username === usData.username)
