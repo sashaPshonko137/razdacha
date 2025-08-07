@@ -434,6 +434,14 @@ const msg = message.toLowerCase();
                 bot.player.kick(id).catch(e => console.error(e));
             case 'бан':
                 bot.player.ban(id, 3200).catch(e => console.error(e));
+            case 'модер':
+                bot.player.moderator.add(id).catch(e => console.error(e));
+            case 'диз':
+                bot.player.designer.add(id).catch(e => console.error(e));
+            case 'немодер':
+                bot.player.moderator.remove(id).catch(e => console.error(e));
+            case 'недиз':
+                bot.player.designer.remove(id).catch(e => console.error(e));
         }
         return
     }
