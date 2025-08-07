@@ -361,7 +361,7 @@ bot.on("playerTip", async (sender, receiver, tip) => {
     razdacha.isRunning = false
     await delay(2000)
     await bot.message.send(`\n@${sender.username} got 10g`).catch(console.error);
-    await bot.player.tip(sender.id, 5)
+    await bot.player.tip(sender.id, 10)
 })
 //привет! это конкурс, где можно выиграть gold. нужно успеть первому закинуть боту по его команде 10г, чтобы получить 30г
 bot.on('playerJoin', async (user) => {
