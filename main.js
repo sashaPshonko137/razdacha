@@ -497,6 +497,21 @@ try {
 
 });
 
+function parseUserAction(inputString) {
+    // Удаляем пробелы в начале и конце, затем разбиваем по пробелам
+    const trimmedInput = inputString.trim();
+    const [action, ...rest] = trimmedInput.split(/\s+/);
+    
+    if (!action || rest.length === 0) {
+        return null
+    }
+
+    // Объединяем остаток, удаляем @ и пробелы в имени пользователя
+    const username = rest.join(' ').replace(/^@/, '').trim();
+
+    return { action, username };
+}
+
 bot.on("chatCreate", async (user, message) => {
     const msg = message.toLowerCase();
 
@@ -562,6 +577,24 @@ bot.on("chatCreate", async (user, message) => {
         await bot.message.send(`\nSTART`).catch(console.error);
     }
 
+    const usData = parseUserAction(message)
+    if (usData) {
+        const players = await bot.room.players.get().catch(console.error);
+        if (!players) return
+        const partner = players.find(player => player[0].username === usData.username)
+        if (!partner) {
+            return
+        }
+        const id = partner[0].id
+        switch(usData.action) {
+            case 'кик':
+                bot.player.kick(id).catch(e => console.error(e));
+            case 'бан':
+                bot.player.ban(user_id, 3200).catch(e => console.error(e));
+        }
+        return
+    }
+
       const price = extractNumberFromString(msg)
   if (price !== 0) {
     try {
@@ -622,14 +655,6 @@ for (const id of playerIDs) {
         console.error(`Failed to tip player ${id}:`, error);
         failedCount++;
     }
-}
-
-// Отправляем итоговое сообщение
-try {
-  await bot.message.send(`✅ Успешно отправлены чаевые всем ${successCount} игрокам!`).catch(console.error);
-    
-} catch (error) {
-    console.error('Failed to send result message:', error);
 }
 
     } catch (error) {
