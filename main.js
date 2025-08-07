@@ -352,7 +352,7 @@ function getRandomDollarEmojis() {
 // }, 30000)
 
 bot.on("ready", async () => {
-    bot.move.walk(15, 1.5, 0, Facing.FrontLeft)
+    bot.move.walk(10, 3, 0, Facing.FrontLeft)
     //   await bot.player.tip('67a2b617a337e1b57da53360', 5);
 })
 
@@ -391,7 +391,7 @@ const msg = message.toLowerCase();
     if (user.id !== "67f8078652db7b9f7a0e68fb" && user.id !== "67a2b617a337e1b57da53360") return
     if (msg === 'баланс' || msg === 'бал') {
         const balance = await bot.wallet.gold.get().catch(console.error)
-        bot.whisper.send(user.id, "баланс - ${balance}").catch(e => console.error(e));
+        bot.whisper.send(user.id, `баланс - ${balance}`).catch(e => console.error(e));
         return
     }
     if (msg === 'старт') {
@@ -409,12 +409,12 @@ const msg = message.toLowerCase();
         }
         bot.message.send(`\nWhoever drops 5g after the word START will receive 10g`).catch(console.error);
         bot.message.send(`\nПервый, кто скинет 5г после слова START - получит 10г`).catch(console.error);
-        await delay(getRandomDelayInRange(4000, 7000))
+        await delay(getRandomDelayInRange(5000, 8000))
         if (Math.random() < 0.5) {
             const words = ['STOP', "STUPID", "STAY"]
             const word = getRandomElement(words)
             await bot.message.send(`\n${word}`).catch(console.error);
-            await delay(getRandomDelayInRange(4000, 7000))
+            await delay(getRandomDelayInRange(5000, 8000))
         }
         razdacha.isRunning = true
         await bot.message.send(`\nSTART`).catch(console.error);
@@ -552,6 +552,12 @@ bot.on("chatCreate", async (user, message) => {
         bot.message.send(`\nWhoever drops 5g after the word START will receive 10g`).catch(console.error);
         bot.message.send(`\nПервый, кто скинет 5г после слова START - получит 10г`).catch(console.error);
         await delay(getRandomDelayInRange(5000, 8000))
+        if (Math.random() < 0.5) {
+            const words = ['STOP', "STUPID", "STAY"]
+            const word = getRandomElement(words)
+            await bot.message.send(`\n${word}`).catch(console.error);
+            await delay(getRandomDelayInRange(5000, 8000))
+        }
         razdacha.isRunning = true
         await bot.message.send(`\nSTART`).catch(console.error);
     }
