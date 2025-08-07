@@ -5,9 +5,10 @@ const fsPromises = require('fs').promises;
 const path = require('path');
 
 const token = "f9b4d0c89c4914bcb7048f75500995c62bd4347890f29bd12f4cd589d3205480";
-const room = "689317d9a548bc0b2f8c8e0c";
+const room = "6894ded8f50d604630b5b42d";
 const ownerID = "https://high.rs/room?id=68529363d23340447bc0b10c&invite_id=6878f0cda2765ebef404143f"
 //https://high.rs/room?id=689317d9a548bc0b2f8c8e0c&invite_id=68931c068b70ad12b05d5853
+//https://high.rs/room?id=6894ded8f50d604630b5b42d&invite_id=6894e052792a83d4a326501f
 const userCord = new Map
 const userEmote = new Map
 
@@ -359,17 +360,142 @@ bot.on("playerTip", async (sender, receiver, tip) => {
     if (tip.amount !== 10 || receiver.id !== '6835fa9c903951782e5c18e4' || !razdacha.isRunning) return
     razdacha.isRunning = false
     await delay(2000)
-    await bot.message.send(`\n@${sender.username} got 20g`).catch(console.error);
-    await bot.player.tip(sender.id, 10)
-    await bot.player.tip(sender.id, 10)
+    await bot.message.send(`\n@${sender.username} got 10g`).catch(console.error);
+    await bot.player.tip(sender.id, 5)
 })
 //привет! это конкурс, где можно выиграть gold. нужно успеть первому закинуть боту по его команде 10г, чтобы получить 30г
 bot.on('playerJoin', async (user) => {
-    await bot.whisper.send(user.id, `\n@${user.username}, hi! this is a contest where you can win gold. you need to be the first to give the bot 10g on its command to get 20g`).catch(console.error);
-    await bot.whisper.send(user.id, `\n@${user.username}, привет! это конкурс, где можно выиграть gold. нужно успеть первому закинуть боту по его команде 10г, чтобы получить 20г`).catch(console.error);
+    await bot.whisper.send(user.id, `\n@${user.username}, hi! this is a contest where you can win gold. you need to be the first to give the bot 5g on its command to get 10g`).catch(console.error);
+    await bot.whisper.send(user.id, `\n@${user.username}, привет! это конкурс, где можно выиграть gold. нужно успеть первому закинуть боту по его команде 5г, чтобы получить 10г`).catch(console.error);
     await bot.player.react(user.id, Reactions.Heart).catch(e => console.error(e));
 });
 
+function getRandomElement(array) {
+  if (!Array.isArray(array) || array.length === 0) {
+    throw new Error("Input must be a non-empty array");
+  }
+  
+  const randomIndex = Math.floor(Math.random() * array.length);
+  return array[randomIndex];
+}
+
+bot.on("whisperCreate", async (user, message) => {
+const msg = message.toLowerCase();
+
+    console.log(`${user.username}: ${msg}`)
+    if (msg === '0') {
+        userEmote.delete(user.id)
+        return
+    }
+
+    if (user.id !== "67f8078652db7b9f7a0e68fb" && user.id !== "67a2b617a337e1b57da53360") return
+    if (msg === 'баланс' || msg === 'бал') {
+        const balance = await bot.wallet.gold.get().catch(console.error)
+        bot.whisper.send(user.id, "баланс - ${balance}").catch(e => console.error(e));
+        return
+    }
+    if (msg === 'старт') {
+        if (razdacha.isRunning) return
+        const players = await bot.room.players.get().catch(console.error);
+        const playerIDs = players.map(item => item[0].id);
+        const totalPlayers = playerIDs.length;
+        for (const id of playerIDs) {
+            if (id === '6835fa9c903951782e5c18e4') continue
+            try {
+                await bot.player.react(id, Reactions.Clap).catch(e => console.error(e));
+            } catch (error) {
+                console.error(error)
+            }
+        }
+        bot.message.send(`\nWhoever drops 5g after the word START will receive 10g`).catch(console.error);
+        bot.message.send(`\nПервый, кто скинет 5г после слова START - получит 10г`).catch(console.error);
+        await delay(getRandomDelayInRange(4000, 7000))
+        if (Math.random() < 0.5) {
+            const words = ['STOP', "STUPID", "STAY"]
+            const word = getRandomElement(words)
+            await bot.message.send(`\n${word}`).catch(console.error);
+            await delay(getRandomDelayInRange(4000, 7000))
+        }
+        razdacha.isRunning = true
+        await bot.message.send(`\nSTART`).catch(console.error);
+    }
+
+      const price = extractNumberFromString(msg)
+  if (price !== 0) {
+    try {
+        const balance = await bot.wallet.gold.get().catch(console.error);
+        console.log('Current balance:', balance);
+        
+        if (!balance) {
+            console.error('Failed to get balance');
+            return;
+        }
+
+        const players = await bot.room.players.get().catch(console.error);
+        if (!players || !players.length) {
+            console.error('No players found');
+            return;
+        }
+
+        const playerIDs = players.map(item => item[0].id);
+        const totalPlayers = playerIDs.length;
+
+        // Проверка баланса и отправка чаевых
+        let barType, requiredAmount;
+        
+        switch(price) {
+            case 1:
+                barType = GoldBars.BAR_1;
+                requiredAmount = totalPlayers * 2;
+                break;
+            case 5:
+                barType = GoldBars.BAR_5;
+                requiredAmount = totalPlayers * 6;
+                break;
+            case 10:
+                barType = GoldBars.BAR_10;
+                requiredAmount = totalPlayers * 11;
+                break;
+            default:
+                console.error('Invalid price value');
+                return;
+        }
+
+        if (balance < requiredAmount) {
+            await bot.message.send(`Не хватает золота! Баланс: ${balance}, требуется: ${requiredAmount}`).catch(console.error);
+            return;
+        }
+
+        // Отправка чаевых всем игрокам
+let successCount = 0;
+let failedCount = 0;
+
+for (const id of playerIDs) {
+  if (id === '6370bcc817c7908be2648aef') continue
+    try {
+        await bot.player.tip(id, barType);
+        console.log(`Sent tip to ${id}`);
+        successCount++;
+    } catch (error) {
+        console.error(`Failed to tip player ${id}:`, error);
+        failedCount++;
+    }
+}
+
+// Отправляем итоговое сообщение
+try {
+  await bot.message.send(`✅ Успешно отправлены чаевые всем ${successCount} игрокам!`).catch(console.error);
+    
+} catch (error) {
+    console.error('Failed to send result message:', error);
+}
+
+    } catch (error) {
+        console.error('Error in tipping process:', error);
+    }
+}
+
+});
 
 bot.on("chatCreate", async (user, message) => {
     const msg = message.toLowerCase();
@@ -423,8 +549,8 @@ bot.on("chatCreate", async (user, message) => {
                 console.error(error)
             }
         }
-        bot.message.send(`\nWhoever drops 10g after the word START will receive 20g`).catch(console.error);
-        bot.message.send(`\nПервый, кто скинет 10г после слова START - получит 20г`).catch(console.error);
+        bot.message.send(`\nWhoever drops 5g after the word START will receive 10g`).catch(console.error);
+        bot.message.send(`\nПервый, кто скинет 5г после слова START - получит 10г`).catch(console.error);
         await delay(getRandomDelayInRange(5000, 8000))
         razdacha.isRunning = true
         await bot.message.send(`\nSTART`).catch(console.error);
