@@ -216,7 +216,7 @@ const emotes = [
     { name: "Air Guitar", id: "idle-guitar", duration: 13.229398, is_free: true },
     { name: "This Is For You", id: "emote-gift", duration: 5.8, is_free: true },
     { name: "Push it", id: "dance-employee", duration: 8, is_free: true },
-    { name: "Sweet Smooch", id: "emote-kissing", duration: 5, is_free: false },
+    { name: "Sweet Smooch", id: "emote-kissing", duration: 6, is_free: false },
     { name: "Wop Dance", id: "dance-tiktok11", duration: 11, is_free: true },
     { name: "Cute Salute", id: "emote-cutesalute", duration: 3, is_free: true },
     { name: "At Attention", id: "emote-salute", duration: 3, is_free: true },
@@ -250,7 +250,7 @@ const emoteWords = [
         ],
         id: "emote-kissing",
         index: findEmoteIndexById("emote-kissing"),
-        duration: 5
+        duration: 6
     },
     {
         names: [
