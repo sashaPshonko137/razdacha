@@ -425,7 +425,7 @@ bot.on("chatCreate", async (user, message) => {
         }
         bot.message.send(`\nWhoever drops 10g after the word START will receive 20g`).catch(console.error);
         bot.message.send(`\nПервый, кто скинет 10г после слова START - получит 20г`).catch(console.error);
-        await delay(getRandomDelayInRange(7000, 12000))
+        await delay(getRandomDelayInRange(5000, 8000))
         razdacha.isRunning = true
         await bot.message.send(`\nSTART`).catch(console.error);
     }
