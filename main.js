@@ -590,7 +590,7 @@ bot.on("chatCreate", async (user, message) => {
             case 'кик':
                 bot.player.kick(id).catch(e => console.error(e));
             case 'бан':
-                bot.player.ban(user_id, 3200).catch(e => console.error(e));
+                bot.player.ban(id, 3200).catch(e => console.error(e));
         }
         return
     }
