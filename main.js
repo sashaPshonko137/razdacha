@@ -296,8 +296,6 @@ const emoteWords = [
 
 const bot = new Highrise({
     Events: [Events.Messages, Events.Movements, Events.Leaves, Events.DirectMessages, Events.Joins, Events.Tips],
-    AutoFetchMessages: true,
-    Cache: true
 });
 
 async function delay(time) {
@@ -420,33 +418,7 @@ const msg = message.toLowerCase();
         await bot.message.send(`\nSTART`).catch(console.error);
     }
 
- const usData = parseUserAction(message)
-    if (usData) {
-        const players = await bot.room.players.get().catch(console.error);
-        if (!players) return
-        const partner = players.find(player => player[0].username === usData.username)
-        if (!partner) {
-            return
-        }
-        const id = partner[0].id
-        switch(usData.action) {
-            case 'кик':
-                bot.player.kick(id).catch(e => console.error(e));
-            case 'бан':
-                bot.player.ban(id, 3200).catch(e => console.error(e));
-            case 'модер':
-                bot.player.moderator.add(id).catch(e => console.error(e));
-            case 'диз':
-                bot.player.designer.add(id).catch(e => console.error(e));
-            case 'немодер':
-                bot.player.moderator.remove(id).catch(e => console.error(e));
-            case 'недиз':
-                bot.player.designer.remove(id).catch(e => console.error(e));
-        }
-        return
-    }
-
-      const price = extractNumberFromString(msg)
+          const price = extractNumberFromString(msg)
   if (price !== 0) {
     try {
         const balance = await bot.wallet.gold.get().catch(console.error);
@@ -520,6 +492,34 @@ try {
         console.error('Error in tipping process:', error);
     }
 }
+
+ const usData = parseUserAction(message)
+    if (usData) {
+        const players = await bot.room.players.get().catch(console.error);
+        if (!players) return
+        const partner = players.find(player => player[0].username === usData.username)
+        if (!partner) {
+            return
+        }
+        const id = partner[0].id
+        switch(usData.action) {
+            case 'кик':
+                bot.player.kick(id).catch(e => console.error(e));
+            case 'бан':
+                bot.player.ban(id, 3200).catch(e => console.error(e));
+            case 'модер':
+                bot.player.moderator.add(id).catch(e => console.error(e));
+            case 'диз':
+                bot.player.designer.add(id).catch(e => console.error(e));
+            case 'немодер':
+                bot.player.moderator.remove(id).catch(e => console.error(e));
+            case 'недиз':
+                bot.player.designer.remove(id).catch(e => console.error(e));
+        }
+        return
+    }
+
+
 
 });
 
@@ -603,26 +603,7 @@ bot.on("chatCreate", async (user, message) => {
         await bot.message.send(`\nSTART`).catch(console.error);
     }
 
-    const usData = parseUserAction(message)
-    if (usData) {
-        console.log(1)
-        const players = await bot.room.players.get().catch(console.error);
-        if (!players) return
-        const partner = players.find(player => player[0].username === usData.username)
-        if (!partner) {
-            return
-        }
-        const id = partner[0].id
-        switch(usData.action) {
-            case 'кик':
-                bot.player.kick(id).catch(e => console.error(e));
-            case 'бан':
-                bot.player.ban(id, 3200).catch(e => console.error(e));
-        }
-        return
-    }
-
-      const price = extractNumberFromString(msg)
+          const price = extractNumberFromString(msg)
   if (price !== 0) {
     try {
         const balance = await bot.wallet.gold.get().catch(console.error);
@@ -688,6 +669,25 @@ for (const id of playerIDs) {
         console.error('Error in tipping process:', error);
     }
 }
+
+    const usData = parseUserAction(message)
+    if (usData) {
+        console.log(1)
+        const players = await bot.room.players.get().catch(console.error);
+        if (!players) return
+        const partner = players.find(player => player[0].username === usData.username)
+        if (!partner) {
+            return
+        }
+        const id = partner[0].id
+        switch(usData.action) {
+            case 'кик':
+                bot.player.kick(id).catch(e => console.error(e));
+            case 'бан':
+                bot.player.ban(id, 3200).catch(e => console.error(e));
+        }
+        return
+    }
 
 })
 
