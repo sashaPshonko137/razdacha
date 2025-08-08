@@ -410,7 +410,7 @@ const msg = message.toLowerCase();
         bot.message.send(`\nWhoever drops 10g after the word ✅START✅ will receive 20g`).catch(console.error);
         bot.message.send(`\nПервый, кто скинет 10г после слова ✅START✅ - получит 20г`).catch(console.error);
         await delay(getRandomDelayInRange(5000, 8000))
-        if (Math.random() < 0.9) {
+        if (Math.random() < 0.5) {
             const words = ['✅STRAT✅', "✅STSRT✅", "✅STYRT✅", "✅SPART✅", "✅STUPID✅"]
             const word = getRandomElement(words)
             await bot.message.send(`\n${word}`).catch(console.error);
@@ -593,7 +593,7 @@ bot.on("chatCreate", async (user, message) => {
         bot.message.send(`\nWhoever drops 10g after the word ✅START✅ will receive 20g`).catch(console.error);
         bot.message.send(`\nПервый, кто скинет 10г после слова ✅START✅ - получит 20г`).catch(console.error);
         await delay(getRandomDelayInRange(5000, 8000))
-        if (Math.random() < 0.9) {
+        if (Math.random() < 0.5) {
             const words = ['✅STRAT✅', "✅STSRT✅", "✅STYRT✅", "✅SPART✅", "✅STUPID✅"]
             const word = getRandomElement(words)
             await bot.message.send(`\n${word}`).catch(console.error);
