@@ -355,16 +355,17 @@ bot.on("ready", async () => {
 })
 
 bot.on("playerTip", async (sender, receiver, tip) => {
-    if (tip.amount !== 5 || receiver.id !== '6835fa9c903951782e5c18e4' || !razdacha.isRunning) return
+    if (tip.amount !== 10 || receiver.id !== '6835fa9c903951782e5c18e4' || !razdacha.isRunning) return
     razdacha.isRunning = false
     await delay(2000)
-    await bot.message.send(`\n@${sender.username} got 10g`).catch(console.error);
+    await bot.message.send(`\n@${sender.username} got 20g`).catch(console.error);
+    await bot.player.tip(sender.id, 10)
     await bot.player.tip(sender.id, 10)
 })
 //привет! это конкурс, где можно выиграть gold. нужно успеть первому закинуть боту по его команде 10г, чтобы получить 30г
 bot.on('playerJoin', async (user) => {
-    await bot.whisper.send(user.id, `\n@${user.username}, hi! this is a contest where you can win gold. you need to be the first to give the bot 5g on its command to get 10g`).catch(console.error);
-    await bot.whisper.send(user.id, `\n@${user.username}, привет! это конкурс, где можно выиграть gold. нужно успеть первому закинуть боту по его команде 5г, чтобы получить 10г`).catch(console.error);
+    await bot.whisper.send(user.id, `\n@${user.username}, hi! this is a contest where you can win gold. you need to be the first to give the bot 10g on its command to get 20g`).catch(console.error);
+    await bot.whisper.send(user.id, `\n@${user.username}, привет! это конкурс, где можно выиграть gold. нужно успеть первому закинуть боту по его команде 10г, чтобы получить 20г`).catch(console.error);
     await bot.player.react(user.id, Reactions.Heart).catch(e => console.error(e));
 });
 
@@ -405,8 +406,8 @@ const msg = message.toLowerCase();
                 console.error(error)
             }
         }
-        bot.message.send(`\nWhoever drops 5g after the word START will receive 10g`).catch(console.error);
-        bot.message.send(`\nПервый, кто скинет 5г после слова START - получит 10г`).catch(console.error);
+        bot.message.send(`\nWhoever drops 10g after the word START will receive 20g`).catch(console.error);
+        bot.message.send(`\nПервый, кто скинет 10г после слова START - получит 20г`).catch(console.error);
         await delay(getRandomDelayInRange(5000, 8000))
         if (Math.random() < 0.5) {
             const words = ['STOP', "STUPID", "STAY"]
@@ -582,8 +583,8 @@ bot.on("chatCreate", async (user, message) => {
                 console.error(error)
             }
         }
-        bot.message.send(`\nWhoever drops 5g after the word START will receive 10g`).catch(console.error);
-        bot.message.send(`\nПервый, кто скинет 5г после слова START - получит 10г`).catch(console.error);
+        bot.message.send(`\nWhoever drops 10g after the word START will receive 20g`).catch(console.error);
+        bot.message.send(`\nПервый, кто скинет 10г после слова START - получит 20г`).catch(console.error);
         await delay(getRandomDelayInRange(5000, 8000))
         if (Math.random() < 0.5) {
             const words = ['STOP', "STUPID", "STAY"]
