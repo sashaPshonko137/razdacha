@@ -469,7 +469,7 @@ let successCount = 0;
 let failedCount = 0;
 
 for (const id of playerIDs) {
-  if (id === '6370bcc817c7908be2648aef') continue
+        if (user.id === "67f8078652db7b9f7a0e68fb" || user.id === "67a2b617a337e1b57da53360" || user.id === bot.info.user.id) continue
     try {
         await bot.player.tip(id, barType);
         console.log(`Sent tip to ${id}`);
@@ -478,14 +478,6 @@ for (const id of playerIDs) {
         console.error(`Failed to tip player ${id}:`, error);
         failedCount++;
     }
-}
-
-// Отправляем итоговое сообщение
-try {
-  await bot.message.send(`✅ Успешно отправлены чаевые всем ${successCount} игрокам!`).catch(console.error);
-    
-} catch (error) {
-    console.error('Failed to send result message:', error);
 }
 
     } catch (error) {
@@ -654,7 +646,7 @@ let successCount = 0;
 let failedCount = 0;
 
 for (const id of playerIDs) {
-  if (id === '6370bcc817c7908be2648aef') continue
+        if (user.id === "67f8078652db7b9f7a0e68fb" || user.id === "67a2b617a337e1b57da53360" || user.id === bot.info.user.id) continue
     try {
         await bot.player.tip(id, barType);
         console.log(`Sent tip to ${id}`);
