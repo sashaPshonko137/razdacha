@@ -395,6 +395,7 @@ const msg = message.toLowerCase();
     }
     if (msg === 'старт') {
         if (razdacha.isRunning) return
+        razdacha.isRunning = true
         const players = await bot.room.players.get().catch(console.error);
         const playerIDs = players.map(item => item[0].id);
         const totalPlayers = playerIDs.length;
@@ -409,13 +410,18 @@ const msg = message.toLowerCase();
         bot.message.send(`\nWhoever drops 10g after the word START will receive 20g`).catch(console.error);
         bot.message.send(`\nПервый, кто скинет 10г после слова START - получит 20г`).catch(console.error);
         await delay(getRandomDelayInRange(5000, 8000))
-        if (Math.random() < 0.5) {
-            const words = ['STOP', "STUPID", "STAY"]
+        if (Math.random() < 0.6) {
+            const words = ['STOP', "STUPID", "STAY", "PART"]
             const word = getRandomElement(words)
             await bot.message.send(`\n${word}`).catch(console.error);
             await delay(getRandomDelayInRange(5000, 8000))
+            if (Math.random() < 0.5) {
+                const words = ['STOP', "STUPID", "STAY", "PART"]
+                const word = getRandomElement(words)
+                await bot.message.send(`\n${word}`).catch(console.error);
+                await delay(getRandomDelayInRange(5000, 8000))
+            }
         }
-        razdacha.isRunning = true
         await bot.message.send(`\nSTART`).catch(console.error);
     }
 
@@ -572,6 +578,7 @@ bot.on("chatCreate", async (user, message) => {
     }
     if (msg === 'старт') {
         if (razdacha.isRunning) return
+        razdacha.isRunning = true
         const players = await bot.room.players.get().catch(console.error);
         const playerIDs = players.map(item => item[0].id);
         const totalPlayers = playerIDs.length;
@@ -586,13 +593,18 @@ bot.on("chatCreate", async (user, message) => {
         bot.message.send(`\nWhoever drops 10g after the word START will receive 20g`).catch(console.error);
         bot.message.send(`\nПервый, кто скинет 10г после слова START - получит 20г`).catch(console.error);
         await delay(getRandomDelayInRange(5000, 8000))
-        if (Math.random() < 0.5) {
-            const words = ['STOP', "STUPID", "STAY"]
+        if (Math.random() < 0.6) {
+            const words = ['STOP', "STUPID", "STAY", "PART"]
             const word = getRandomElement(words)
             await bot.message.send(`\n${word}`).catch(console.error);
             await delay(getRandomDelayInRange(5000, 8000))
+            if (Math.random() < 0.5) {
+                const words = ['STOP', "STUPID", "STAY", "PART"]
+                const word = getRandomElement(words)
+                await bot.message.send(`\n${word}`).catch(console.error);
+                await delay(getRandomDelayInRange(5000, 8000))
+            }
         }
-        razdacha.isRunning = true
         await bot.message.send(`\nSTART`).catch(console.error);
     }
 
